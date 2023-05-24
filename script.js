@@ -249,6 +249,45 @@ function main() {
       cell.textContent = rowData[j];
     }
   }
+
+  document.querySelector(".text-compare").innerHTML = "";
+  let compareArray = [];
+  compareArray = values.slice(0, parseInt(values.length * 0.1));
+  const num = compareArray.length;
+  let temp = `<p>Выборка на основе ${num} первых значений</p>`;
+
+  // Вычисление выборочного среднего
+  const xBar = compareArray.reduce((sum, value) => sum + value, 0) / num;
+  temp += `<p>Вычисление выборочного среднего x&#x0304: ${xBar.toFixed(2)}</p>`;
+
+  // Вычисление выборочной дисперсии
+  const sampleVariance =
+    compareArray.reduce((sum, value) => sum + Math.pow(value - xBar, 2), 0) /
+    num;
+  temp += `<p>Вычисление выборочной дисперсии D<sub>в</sub>: ${sampleVariance.toFixed(
+    2
+  )}</p>`;
+
+  // Вычисление исправленной выборочной дисперсии
+  const correctedSampleVariance =
+    compareArray.reduce((sum, value) => sum + Math.pow(value - xBar, 2), 0) /
+    (num - 1);
+  temp += `<p>Вычисление исправленной выборочной дисперсии S<sup>2</sup>: ${correctedSampleVariance.toFixed(
+    2
+  )}</p>`;
+
+  // Вычисление выборочного стандартного отклонения
+  const sampleStandardDeviation = Math.sqrt(sampleVariance);
+  temp += `<p>Вычисление выборочного стандартного отклонения σ<sub>в</sub>: ${sampleStandardDeviation.toFixed(
+    2
+  )}</p>`;
+
+  // Вычисление исправленного выборочного стандартного отклонения
+  const correctedSampleStandardDeviation = Math.sqrt(correctedSampleVariance);
+  temp += `<p>Вычисление исправленного выборочного стандартного отклонения S: ${correctedSampleStandardDeviation.toFixed(
+    2
+  )}</p>`;
+  document.querySelector(".text-compare").innerHTML = temp;
 }
 main();
 
